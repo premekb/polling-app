@@ -1,0 +1,18 @@
+<?php
+    include_once "header.php";
+    include "php/errors_include.php"
+?>
+    <main>
+        <h1>Log in</h1>
+        <form action="php/login_include.php" method="post" name="login">
+            <label for="username">Username</label><br>
+            <input type="text" id="username" name="username"><br>
+            <label for="password">Password</label><br>
+            <input type="password" id="password" name="password"><br>
+            <input type="submit" value="Login" name="submit">
+        </form>
+        <script src="scripts/login.js"></script>
+        <?php if (isset($_GET["error"])) echo printError($_GET["error"]);?>
+    </main>
+</body>
+</html>

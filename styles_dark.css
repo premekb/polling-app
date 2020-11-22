@@ -1,0 +1,204 @@
+*{
+    font-family: Arial, Helvetica, sans-serif;
+    color: whitesmoke;
+}
+
+body{
+    margin: 0;
+    background-color: #253342;
+}
+
+article, main{
+    justify-content: center;
+    margin: auto;
+    width: 75%;
+}
+
+form{
+    text-align: center;
+}
+
+label{
+    font-size: 20px;
+}
+
+input{
+    color: black;
+}
+
+input[type=text], [type=password], [type=email]{
+    width: 25%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    border-width: 1px;
+    border-color: black;
+}
+
+input[type=submit]{
+    background-color: #15202b;
+    color: whitesmoke;
+    border-color: transparent;
+    border-radius: 10px;
+    font-size: 20px;
+    width: 25%;
+    height: 3em;
+    transition-duration: 0.5s;
+    outline: none;
+}
+
+input[type=submit]:hover{
+    color: whitesmoke;
+    background-color: transparent;
+    border-color: #15202b;
+    border-style: solid;
+    cursor: pointer;
+}
+
+input[type=submit]:active{
+    transform: scale(0.98);
+    font-weight: bold;
+}
+
+nav#top_nav{
+    background-color: #15202b;
+    padding: 17px;
+    margin-bottom: 20px;
+}
+
+nav#top_nav a {
+    color: whitesmoke;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: lighter;
+    text-align: center;
+    padding: 17px;
+}
+
+nav#top_nav a:hover{
+    font-weight: bold;
+}
+
+img#left {
+    position: fixed;
+    top: 40%;
+    left: 10px;
+}
+
+img#right {
+    position: fixed;
+    top: 40%;
+    right: 10px;
+}
+
+th {
+    background-color: #15202b;
+    padding: 10px;
+    width: 33%;
+}
+
+td {
+    padding: 10px;
+    width: 33%;
+}
+
+table {
+    width: 100%;
+    border-spacing: 0;
+    table-layout: fixed;
+}
+
+tr.odd {
+    background-color: #18212b;
+}
+
+th {
+    color: whitesmoke;
+}
+
+a.table {
+    display: block;
+    text-decoration: underline;
+    color: whitesmoke;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+ h1 {
+     font-size: 2em;
+ }
+
+ img#addAnswer, img#removeAnswer {
+    cursor: pointer;
+    margin: 5px;
+ }
+
+ img#right_nav{
+     position: absolute;
+     cursor: pointer;
+     right: 0;
+ }
+
+ img#left_nav{
+    position: absolute;
+    cursor: pointer;
+}
+
+nav#bottom_nav{
+    margin: auto;
+    width: 75%;
+    position: relative;
+    height: 40px;
+}
+
+input[type=button]#gotopage{
+    background-color: #15202b;;
+    color: whitesmoke;
+    border-color: transparent;
+    border-radius: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 3px;
+    padding-bottom: 2px;
+    transition-duration: 0.5s;
+    outline: none;
+}
+
+input[type=button]#gotopage:hover{
+    color: whitesmoke;
+    background-color: transparent;
+    border-color: #15202b;;
+    cursor: pointer;
+    border-style: solid;
+}
+
+input[type=number]{
+    text-align: center;
+    border-radius: 5px;
+    border-width: 1px;
+    padding: 2px;
+}
+
+span#span_bottom_nav{
+    position:relative;
+    top: 10px;
+}
+
+form#voting_form{
+    justify-content: center;
+}
+
+div#piechart{
+    justify-content: center;
+}
+
+input.fail{
+    border-color: red;
+    border-style: solid;
+}
+
+span#skin{
+    right: 2%;
+    position: absolute;
+}
