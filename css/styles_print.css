@@ -1,0 +1,156 @@
+*{
+    font-family: Arial, Helvetica, sans-serif;
+    color: black;
+}
+
+body{
+    margin: 0;
+    background-color: white;
+}
+
+article, main{
+    justify-content: center;
+    margin: auto;
+    width: 75%;
+}
+
+form{
+    text-align: center;
+}
+
+label{
+    font-size: 20px;
+}
+
+input[type=text], [type=password], [type=email]{
+    width: 25%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    border-width: 1px;
+    border-color: black;
+}
+
+input[type=submit]{
+    background-color: #00BFFF;
+    color: white;
+    border-color: transparent;
+    border-radius: 10px;
+    font-size: 20px;
+    width: 25%;
+    height: 3em;
+    transition-duration: 0.5s;
+    outline: none;
+}
+
+nav#top_nav{
+    display: none;
+}
+
+img#left {
+    position: fixed;
+    top: 40%;
+    left: 10px;
+}
+
+img#right {
+    position: fixed;
+    top: 40%;
+    right: 10px;
+}
+
+th {
+    background-color: #00BFFF;
+    padding: 10px;
+    width: 33%;
+}
+
+td {
+    padding: 10px;
+    width: 33%;
+}
+
+table {
+    width: 100%;
+    border-spacing: 0;
+    table-layout: fixed;
+}
+
+tr.odd {
+    background-color: #B8E2F2;
+}
+
+th {
+    color: whitesmoke;
+}
+
+a.table {
+    display: block;
+    text-decoration: underline;
+    color: black;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+ h1 {
+     font-size: 2em;
+ }
+
+ img#addAnswer, img#removeAnswer {
+    cursor: pointer;
+    margin: 5px;
+ }
+
+ img#right_nav{
+     display: none;
+ }
+
+ img#left_nav{
+    display: none;
+}
+
+nav#bottom_nav{
+    margin: auto;
+    width: 75%;
+    position: relative;
+    height: 40px;
+}
+
+input[type=button]#gotopage{
+    display: none;
+}
+
+input[type=number]{
+    text-align: center;
+    border-radius: 5px;
+    border-width: 1px;
+    padding: 2px;
+}
+
+span#span_bottom_nav{
+    position:relative;
+    top: 10px;
+}
+
+span#span_bottom_nav::before{
+    content: "Page";
+}
+
+form#voting_form{
+    justify-content: center;
+}
+
+div#piechart{
+    justify-content: center;
+}
+
+input.fail{
+    border-color: red;
+    border-style: solid;
+}
+
+span#skin{
+    right: 2%;
+    position: absolute;
+}

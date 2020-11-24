@@ -1,5 +1,6 @@
 <?php
     include_once "php/title_include.php";
+    include "php/validation_include.php";
     session_start();
     // Create the skin cookie if it doesn't exist.
     if(!isset($_COOKIE["skin"])){
@@ -13,7 +14,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- If the user has disabled cookies, or on the first visit, set the skin to light as default.-->
-    <link rel="stylesheet" href=<?php if(isset($_COOKIE["skin"])){echo "'styles_".$_COOKIE["skin"].".css'";} else{echo "'styles_light.css'";}?>>
+    <link rel="stylesheet" href=<?php if(isset($_COOKIE["skin"])){echo "'css/styles_".$_COOKIE["skin"].".css'";} else{echo "'css/styles_light.css'";}?>>
+    <link rel="stylesheet" media="print" href="css/styles_print.css">
     <title><?php echo printTitle(basename($_SERVER['PHP_SELF']))?></title>
 </head>
 <body>

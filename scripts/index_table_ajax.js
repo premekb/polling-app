@@ -1,7 +1,7 @@
 function generateTable(){
     // Ajax request for page of polls.
-    var page = document.forms["pages"].elements.page.value;
-    numberInput = document.querySelector("#page");
+    var page = document.querySelector("#page").value;
+    var numberInput = document.querySelector("#page");
     if (validate(page)){
         var table = document.querySelector("table");
         var xhttp = new XMLHttpRequest();
@@ -82,7 +82,8 @@ function generateLeftArrow(page){
 
 function validate(page){
     // Check, that the page to be generated is in proper range.
-    stringPage = String(page);
+    var stringPage = String(page);
+    
     if (stringPage.length == 0){
         return false;
     }
@@ -91,7 +92,8 @@ function validate(page){
             return false;
         }
     }
-    maxPage = document.querySelector("#page").max;
+    var maxPage = Number(document.querySelector("#page").max);
+
     if (page < 0 || page > maxPage){
         return false;
     }

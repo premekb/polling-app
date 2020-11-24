@@ -37,6 +37,66 @@ function removeInput() {
     }
 }
 
+function validate(event){
+    // Validate the user input in the "create a new poll" form.
+    var questionField = document.querySelector("#question");
+    var fail = false;
+    var tooLongAnswer = false;
+
+    var errorParagraph = document.querySelector("p");
+    var article = document.querySelector("article");
+
+    // Remove the red borders from the last control.
+    questionField.classList.remove("fail");
+
+    // Remove all the previous error messages.
+    while (errorParagraph){
+        errorParagraph.remove();
+        errorParagraph = document.querySelector("p");
+    }
+
+    if (questionField.value.split(" ").join("").length == 0){
+        questionField.classList.add("fail");
+        fail = true;
+    }
+
+    else if (questionField.value.length > 200){
+        questionField.classList.add("fail");
+        fail = true;
+        errorParagraph = document.createElement("p");
+        errorParagraph.innerHTML = "The question cannot be longer than 200 letters.";
+        article.appendChild(errorParagraph);
+    }
+
+    for (i = 0; i < answerCount; i++){
+        var answerId = "#answer" + (i + 1);
+        answerField = document.querySelector(answerId);
+        // Remove the red borders from the last control.
+        answerField.classList.remove("fail");
+
+        if (answerField.value.split(" ").join("").length == 0){
+            answerField.classList.add("fail");
+            fail = true;
+        }
+
+        else if (answerField.value.length > 100){
+            answerField.classList.add("fail");
+            fail = true;
+            tooLongAnswer = true;
+        }
+    }
+
+    if (fail){
+        event.preventDefault();
+    }
+
+    if (tooLongAnswer){
+        errorParagraph = document.createElement("p");
+        errorParagraph.innerHTML = "The answers cannot be longer than 100 letters.";
+        article.appendChild(errorParagraph);
+    }
+}
+
 document.querySelector("#minusphp").outerHTML = document.querySelector("#minusphp").innerHTML;
 document.querySelector("#plusphp").outerHTML = document.querySelector("#plusphp").innerHTML;
 var plusSign = document.querySelector("#addAnswer");
@@ -44,3 +104,5 @@ var minusSign = document.querySelector("#removeAnswer");
 var answerCount = 3
 plusSign.addEventListener("click", addInput);
 minusSign.addEventListener("click", removeInput);
+
+document.querySelector("form").addEventListener("submit", validate);
