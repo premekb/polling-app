@@ -154,3 +154,7 @@ span#skin{
     right: 2%;
     position: absolute;
 }
+
+label#pagelabel{
+    font-size: 1em;
+}

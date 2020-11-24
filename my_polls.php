@@ -1,6 +1,6 @@
 <?php
     include_once "header.php";
-    require "php/polls_include.php";
+    include "php/polls_include.php";
 ?>
     <article>
         <?php

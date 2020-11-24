@@ -247,8 +247,9 @@ function generateVotingForm($row, $pid){
     echo "<form id='voting_form' action='php/vote_include.php' method='POST'>"; // specifikuj potom kde to pujde
     while ($row["Answer$i"] != NULL){
         $answerText = $row["Answer$i"];
-        echo "<label for='vote$i'>$answerText</label>";
         echo "<input type='radio' name='vote' id='vote$i' value='$i'>";
+        echo "<label for='vote$i' class='votelabel'>$answerText</label>";
+        echo "<br>";
         $i++;
     }
     echo "<input type='hidden' name='pid' value='$pid'>";

@@ -1,6 +1,7 @@
 <?php
     include_once "php/title_include.php";
     include "php/validation_include.php";
+    include "php/db_connection.php";
     session_start();
     // Create the skin cookie if it doesn't exist.
     if(!isset($_COOKIE["skin"])){
@@ -28,6 +29,9 @@
                 <a href='my_polls.php'>My polls</a>
                 <a href='profile.php'>My profile</a>
                 <a href='logout.php'>Logout</a>";
+                if(isAdmin($_SESSION["id"], $connection)){
+                    echo "<a href='admin.php'>Admin</a>";
+                }
         }
 
         else{

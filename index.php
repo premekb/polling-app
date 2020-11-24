@@ -22,7 +22,8 @@
     <?php printArrows($_GET["page"]); ?>
     <form action="index.php" method="GET" name="pages">
                 <span id="span_bottom_nav">
-                <input type="button" id="gotopage" name="gotopage" value="Go to page">
+                <input type="button" id="gotopage" name="gotopage" value="Go to">
+                <label for="page" id="pagelabel">page</label>
                 <input type="number" name="page" id="page" value=<?php echo $_GET["page"];?> min="1" max=<?php echo getPages(); ?>> of <?php echo getPages();?>
             </span>
     </form>
