@@ -44,10 +44,13 @@ input[type=radio]{
 
 label.votelabel{
     display: inline-block;
-    padding: 10px 20px;
+    padding: 20px 20px;
     border: 1px solid #444;
     border-radius: 10px;
     margin: 10px;
+    min-width: 200px;
+    width: 35%;
+    color: gray;
 }
 
 label.votelabel:hover{

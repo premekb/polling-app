@@ -261,20 +261,30 @@ function generateVotingForm($row, $pid){
 function generatePoll($pid){
     $row = getPollRow($pid);
     generatePollDescription($row);
+    generatepollResults($row);
     echo "<div id='piechart'></div>";
     generateVotingForm($row, $pid);
 }
 
-function generatePollResults(){
-    // Tohle bude generovat vysledky, jenom html text, pokud javascript pojede tak tohle smazne.
-    return true;
+function generatePollResults($row){
+    // Generates list of results in plain HTML. It gets removed if JS is enabled.
+    echo "<div id='jsoff'><ul>";
+    for ($i = 1; $i <= 20; $i++){
+        if (is_null($row["Answer$i"])){
+            break;
+        }
+        $answer = $row["Answer$i"];
+        $votes = $row["Votes$i"];
+        echo "<li>$answer : $votes</li>";
+    }
+    echo "</ul></div>";
 }
 
 function generatePollDescription($row){
     $question = $row["question"];
-    $createdBy = $row["createdBy"];
+    $createdBy = uidToUsername($row["createdBy"]);
     echo "<h1>$question</h1>";
-    echo "<h2>$createdBy</h2>";
+    echo "<h2>Created by: $createdBy</h2>";
 }
 
 function getPollRow($pid){

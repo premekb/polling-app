@@ -34,6 +34,7 @@
     <p>Zmenit vsechny article na tag main</p>
     <p>Create a new poll nema user input filtering.</p>
     <p>Create a new poll, pri vypnutem javascriptu pores aby se neztracely odpovedi ve formulari.</p>
+    <p>Jestli validace dopadne spatne -> vygeneruj ten formular znova a hodnoty vypln.</p>
 </body>
 </html>
 
