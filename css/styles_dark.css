@@ -9,14 +9,62 @@ body{
     background-color: #253342;
 }
 
+header{
+    position: fixed;
+    display: block;
+    width: 100%;
+    top: 0;
+    z-index: 100;
+}
+
 article, main{
     justify-content: center;
     margin: auto;
     width: 75%;
+    margin-top: 80px;
+}
+
+div#piechart{
+    z-index: 1;
+    position: relative;
 }
 
 form{
     text-align: center;
+}
+
+form.poll_site_delete{
+    text-align: left;
+    display: inline;
+}
+
+form.poll_site_delete input[type=submit]{
+    background-color: #800020;
+    color: white;
+    border-color: transparent;
+    border-radius: 10px;
+    font-size: 1em;
+    width: fit-content;
+    height: 1.5em;
+    transition-duration: 0.5s;
+    outline: none;
+    margin: 5px;
+    border-style: solid;
+    position: relative;
+    bottom: 1px;
+    left: 5px;
+}
+
+form.poll_site_delete input[type=submit]:hover{
+    color: white;
+    background-color: transparent;
+    border-color: #800020;
+    border-style: solid;
+    cursor: pointer;
+}
+
+h2#poll_created_by{
+    display: inline;
 }
 
 label{
@@ -123,8 +171,10 @@ img#right {
 
 th {
     background-color: #15202b;
+    color: whitesmoke;
     padding: 10px;
     width: 33%;
+    text-align: left;
 }
 
 td {
@@ -140,10 +190,6 @@ table {
 
 tr.odd {
     background-color: #18212b;
-}
-
-th {
-    color: whitesmoke;
 }
 
 a.table {

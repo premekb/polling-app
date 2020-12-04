@@ -50,6 +50,6 @@ function noVotes(){
 
 }
 
-document.querySelector("form").addEventListener("submit", validate);
+document.querySelector("form#voting_form").addEventListener("submit", validate);
 noVotes();
 removeHTMLresults();

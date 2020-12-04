@@ -11,10 +11,49 @@ article, main{
     justify-content: center;
     margin: auto;
     width: 75%;
+    margin-top: 80px;
+}
+
+div#piechart{
+    z-index: 1;
+    position: relative;
 }
 
 form{
     text-align: center;
+}
+
+form.poll_site_delete{
+    text-align: left;
+    display: inline;
+}
+
+form.poll_site_delete input[type=submit]{
+    background-color: red;
+    color: white;
+    border-color: transparent;
+    border-radius: 10px;
+    font-size: 1em;
+    width: fit-content;
+    height: 1.5em;
+    transition-duration: 0.5s;
+    outline: none;
+    margin: 5px;
+    position: relative;
+    bottom: 1px;
+    left: 5px;
+}
+
+form.poll_site_delete input[type=submit]:hover{
+    color: red;
+    background-color: transparent;
+    border-color: red;
+    border-style: solid;
+    cursor: pointer;
+}
+
+h2#poll_created_by{
+    display: inline;
 }
 
 label{
@@ -89,6 +128,14 @@ nav#top_nav{
     margin-bottom: 20px;
 }
 
+header{
+    position: fixed;
+    display: block;
+    width: 100%;
+    top: 0;
+    z-index: 100;
+}
+
 nav#top_nav a {
     color: whitesmoke;
     text-decoration: none;
@@ -115,6 +162,8 @@ img#right {
 }
 
 th {
+    color: whitesmoke;
+    text-align: left;
     background-color: #00BFFF;
     padding: 10px;
     width: 33%;
@@ -133,10 +182,6 @@ table {
 
 tr.odd {
     background-color: #B8E2F2;
-}
-
-th {
-    color: whitesmoke;
 }
 
 a.table {

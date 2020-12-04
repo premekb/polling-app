@@ -143,8 +143,8 @@ function printArrows($page){
 
 function removePoll($uid, $pid){
     // Function that removes poll, if the user trying to remove it is the creator or admin.
-    require "db_connection.php";
-    require "validation_include.php";
+    include_once "db_connection.php";
+    include_once "validation_include.php";
     if (isCreator($uid, $pid, $connection) or isAdmin($uid, $connection)){
         $query = "DELETE FROM polls WHERE id=?";
         $stmt = mysqli_stmt_init($connection);
@@ -281,10 +281,28 @@ function generatePollResults($row){
 }
 
 function generatePollDescription($row){
+    include_once "validation_include.php";
+    include "db_connection.php";
     $question = $row["question"];
+    $pid = $row["id"];
     $createdBy = uidToUsername($row["createdBy"]);
     echo "<h1>$question</h1>";
-    echo "<h2>Created by: $createdBy</h2>";
+    echo "<h2 id='poll_created_by'>Created by: $createdBy</h2>";
+    // Generate delete button if user is the owner or an admin.
+    if (isset($_SESSION["id"]) && (($_SESSION["id"] == $row["createdBy"]) || isAdmin($_SESSION["id"], $connection))){
+        echo "<form action='php/delete_poll_include.php' method='post' class='poll_site_delete'>";
+        echo "<input type='hidden' name='pid' value='$pid'>";
+        echo "<input type='submit' name='submit' value='Delete the poll'>";
+        echo "</form>";
+    }
+    // Generate block user button if user is an admin.
+    if (isset($_SESSION["id"]) && isAdmin($_SESSION["id"], $connection)){
+        $uid = $row["createdBy"];
+        echo "<form action='php/block_user_include.php' method='post' class='poll_site_delete'>";
+        echo "<input type='hidden' name='uid' value='$uid'>";
+        echo "<input type='submit' name='submit' value='Block the creator of this poll'>";
+        echo "</form>";
+    }
 }
 
 function getPollRow($pid){

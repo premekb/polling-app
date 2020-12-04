@@ -7,9 +7,9 @@
         <h1>Create a new account</h1>
         <form action="php/register_include.php" method="post" name="register">
             <label for="username">Username</label><br>
-            <input type="text" id="username" name="username"><br>
+            <input type="text" id="username" name="username" value="<?php if (isset($_SESSION["r_username"])){echo htmlspecialchars($_SESSION["r_username"]);} ?>"><br>
             <label for="email">E-mail address</label><br>
-            <input type="email" id="email" name="email"><br>
+            <input type="email" id="email" name="email" value="<?php if (isset($_SESSION["r_email"])){echo htmlspecialchars($_SESSION["r_email"]);} ?>"><br>
             <label for="password">Password</label><br>
             <input type="password" id="password" name="password"><br>
             <label for="r_password">Repeat your password</label><br>

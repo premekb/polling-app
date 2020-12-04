@@ -35,6 +35,8 @@
     <p>Create a new poll nema user input filtering.</p>
     <p>Create a new poll, pri vypnutem javascriptu pores aby se neztracely odpovedi ve formulari.</p>
     <p>Jestli validace dopadne spatne -> vygeneruj ten formular znova a hodnoty vypln.</p>
+    <p>Udelej uzivateli cookie kdyz hlasoval</p>
+    <p>Udelat to tak aby dolni button ktery je na ajax sel i s off js a aby sipky sly i pres ajax</p>
 </body>
 </html>
 

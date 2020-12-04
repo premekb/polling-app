@@ -8,6 +8,12 @@
         $rpassword = $_POST["r_password"];
         $email = htmlspecialchars($_POST["email"], ENT_QUOTES);
 
+        // Start session to save the form values in case of failed form submission.
+        session_start();
+        $_SESSION["r_username"] = $username;
+        $_SESSION["r_email"] = $email;
+
+
         if (isEmpty($username, $password, $rpassword, $email)){
             header("location: ../register.php?error=emptyfield");
             exit();
@@ -43,6 +49,8 @@
             exit();
         }
 
+        unset($_SESSION["r_username"]);
+        unset($_SESSION["r_email"]);
         createUser($username, $password, $email, $connection);
     }
 

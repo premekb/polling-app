@@ -126,11 +126,15 @@ function login($username, $password, $connection){
     if (mysqli_num_rows($query_result) == 1 and password_verify($password, $row["password"])){
         session_start();
         $_SESSION["id"] = $row["id"];
+        unset($_SESSION["l_username"]);
         header("location: ../index.php");
         exit();
     }
 
     else {
+        // Session variable to return the data back to the failed form.
+        session_start();
+        $_SESSION["l_username"] = $username;
         header("location: ../login.php?error=loginfailed");
         exit();
     }
@@ -150,6 +154,11 @@ function isAdmin($id, $connection){
     $result = mysqli_stmt_get_result($stmt);
     $row = mysqli_fetch_array($result);
     
+    // Returns false if no row is found.
+    if (!isset($row["admin"])){
+        return False;
+    }
+
     return ($row["admin"] == 1);
 }
 
@@ -180,4 +189,30 @@ function userVoted($uid, $pid, $connection){
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
     return (mysqli_num_rows($result) > 0);
+}
+
+function isBlocked($uid, $connection){
+    // Returns true if user is blocked.
+    $query = "SELECT * FROM users WHERE id = ? AND blocked = 1";
+    $stmt = mysqli_stmt_init($connection);
+    if (!mysqli_stmt_prepare($stmt, $query)){
+        // Zmen mozna potom error
+        die("stmt");
+    }
+    mysqli_stmt_bind_param($stmt, "i", $uid);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    return (mysqli_num_rows($result) == 1);
+}
+
+function blockUser($uid, $connection){
+    // Blocks the user and removes all polls created by them.
+    $query = "UPDATE users SET blocked = 1 WHERE id = ?";
+    $stmt = mysqli_stmt_init($connection);
+    if (!mysqli_stmt_prepare($stmt, $query)){
+        // Zmen mozna potom error
+        die("stmt");
+    }
+    mysqli_stmt_bind_param($stmt, "i", $uid);
+    mysqli_stmt_execute($stmt);
 }
