@@ -22,7 +22,7 @@
     <?php printArrows($_GET["page"]); ?>
     <form action="index.php" method="GET" name="pages">
                 <span id="span_bottom_nav">
-                <input type="button" id="gotopage" name="gotopage" value="Go to">
+                <input type="submit" id="gotopage" name="gotopage" value="Go to">
                 <label for="page" id="pagelabel">page</label>
                 <input type="number" name="page" id="page" value=<?php echo $_GET["page"];?> min="1" max=<?php echo getPages(); ?>> of <?php echo getPages();?>
             </span>
@@ -32,11 +32,8 @@
     <p>Na nekterych mistech v kodu porad jeste pouzivas mysqli_query, treba generovani tablu.</p>
     <p>Mozna to bude potreba reorganizovat a lisknout potom includes nad www folder</p>
     <p>Zmenit vsechny article na tag main</p>
-    <p>Create a new poll nema user input filtering.</p>
-    <p>Create a new poll, pri vypnutem javascriptu pores aby se neztracely odpovedi ve formulari.</p>
     <p>Jestli validace dopadne spatne -> vygeneruj ten formular znova a hodnoty vypln.</p>
-    <p>Udelej uzivateli cookie kdyz hlasoval</p>
-    <p>Udelat to tak aby dolni button ktery je na ajax sel i s off js a aby sipky sly i pres ajax</p>
+    <p>Create a new poll, zrob ajax aby kdyz to nekdo leavne a pak prijde zpatky aby mu pri mackani pluska a minuska skakaly ty odpovedi.</p>
 </body>
 </html>
 

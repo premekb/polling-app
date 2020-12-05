@@ -1,6 +1,7 @@
 <?php
 
 require "db_connection.php";
+include "polls_include.php";
 
 $page = (int)$_GET["page"];
 $skip = ($page - 1) * 25;
@@ -24,7 +25,7 @@ while($row = mysqli_fetch_array($result)){
     echo "</a></td><td>";
     echo($row["dateAdded"]);
     echo "</td><td>";
-    echo($row["createdBy"]);
+    echo(uidToUsername($row["createdBy"]));
     echo "</td></tr>";
     $ctr += 1;
 }

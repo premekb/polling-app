@@ -27,6 +27,7 @@ function generatePollTable($page){
     $result = mysqli_query($connection, $query);
     $ctr = 0;
     while($row = mysqli_fetch_array($result)){
+        // No need to escape id, it is generated as primary key by the DB.
         $id = $row["id"];
         if ($ctr % 2 == 1) {
             echo "<tr class='odd'><td><a href='poll.php?id=$id' class='table'>";
@@ -34,11 +35,11 @@ function generatePollTable($page){
         else{
             echo "<tr><td><a href='poll.php?id=$id' class='table'>";
         }
-        echo($row["question"]);
+        echo(htmlspecialchars($row["question"], ENT_QUOTES));
         echo "</a></td><td>";
-        echo($row["dateAdded"]);
+        echo(htmlspecialchars($row["dateAdded"], ENT_QUOTES));
         echo "</td><td>";
-        echo(uidToUsername($row["createdBy"]));
+        echo(htmlspecialchars(uidToUsername($row["createdBy"], ENT_QUOTES)));
         echo "</td></tr>";
         $ctr += 1;
     }
@@ -164,6 +165,7 @@ function addPoll($answers, $question, $createdBy){
     $answersCtr = 0;
     $fString = "sis";
     $answersFiltered = array();
+    // Add all nonempty answers field.
     foreach($answers as $answer){
         if (!empty($answer)){
             $answersCtr += 1;
@@ -198,41 +200,54 @@ function addPoll($answers, $question, $createdBy){
 function generatePollInput($answers){
     // Generates input for for creating a new poll. Used when jscript not available.
     // If jscript is available. The links on images are removed in jscript.
-    // TODO ONSUBMIT.
     if (!is_numeric($answers)){
-        $answers = 3;
+        $answers = 2;
     }
 
-    if ($answers < 2 or $answers > 20){
-        $answers = 3;
+    if ($answers < 3){
+        $answers = 2;
+        $decrementedAnswers = 2;
     }
 
+    else if ($answers > 20){
+        $answers = 20;
+        $incrementedAnswers = 20;
+    }
+
+    // Echo the form.
     echo "<h1>Create a new poll</h1>";
     echo "<form action='php/new_poll_include.php' method='POST' name='newpoll'>";
     echo "<label for='question'>Question</label><br>";
-    echo "<input type='text' name='question' id='question'><br>";
-    echo "<label for='answer1'>Answer 1</label><br>";
-    echo "<input type='text' name='answers[]' id='answer1'><br>";
-    echo "<label for='answer2'>Answer 2</label><br>";
-    echo "<input type='text' name='answers[]' id='answer2'><br>";
-    for ($i = 2; $i < $answers; $i++){
+    echo "<input type='text' name='question' id='question'";
+    // Restore the the question input from user.
+    if (isset($_SESSION["question"])){
+        $question = $_SESSION["question"];
+        echo " value='$question'";
+    }
+    echo "><br>";
+    for ($i = 0; $i < $answers; $i++){
         $answerNumber = $i + 1;
         echo "<label for='answer$answerNumber'>Answer $answerNumber</label><br>";
-        echo "<input type='text' name='answers[]' id='answer$answerNumber'><br>";
+        echo "<input type='text' name='answers[]' id='answer$answerNumber'";
+        if (isset($_SESSION["answer".($i + 1)])){
+            $answer = $_SESSION["answer".($i + 1)];
+            echo " value='$answer'";
+        }
+        echo "><br>";
     }
-    if ($answers < 20){
+    if (!isset($incrementedAnswers)){
         $incrementedAnswers = $answers + 1;
-        echo "<a href='new_poll.php?answers=$incrementedAnswers' id='plusphp'>";
-        echo "<img src='Icons/plus_icon.png' alt='add another answer' id='addAnswer'>";
-        echo "</a>";
     }
 
-    if ($answers > 2){
+    if(!isset($decrementedAnswers)){
         $decrementedAnswers = $answers - 1;
-        echo "<a href='new_poll.php?answers=$decrementedAnswers' id='minusphp'>";
-        echo "<img src='Icons/minus_icon.png' alt='remove an answer' id='removeAnswer'><br>";
-        echo "</a>";
     }
+    echo "<a href='new_poll.php?answers=$incrementedAnswers' id='plusphp'>";
+    echo "<img src='Icons/plus_icon.png' alt='add another answer' id='addAnswer'>";
+    echo "</a>";
+    echo "<a href='new_poll.php?answers=$decrementedAnswers' id='minusphp'>";
+    echo "<img src='Icons/minus_icon.png' alt='remove an answer' id='removeAnswer'><br>";
+    echo "</a>";
     echo "<input type='submit' name='submit' value='Create a new poll'><br>";
     echo "</form>";
     echo "<script src='scripts/new_poll.js'></script>";
@@ -246,7 +261,7 @@ function generateVotingForm($row, $pid){
     }
     echo "<form id='voting_form' action='php/vote_include.php' method='POST'>"; // specifikuj potom kde to pujde
     while ($row["Answer$i"] != NULL){
-        $answerText = $row["Answer$i"];
+        $answerText = htmlspecialchars($row["Answer$i"], ENT_QUOTES);
         echo "<input type='radio' name='vote' id='vote$i' value='$i'>";
         echo "<label for='vote$i' class='votelabel'>$answerText</label>";
         echo "<br>";
@@ -260,6 +275,10 @@ function generateVotingForm($row, $pid){
 
 function generatePoll($pid){
     $row = getPollRow($pid);
+    if (!$row){
+        echo "<p>This poll doesn't exist.</p>";
+        exit();
+    }
     generatePollDescription($row);
     generatepollResults($row);
     echo "<div id='piechart'></div>";
@@ -273,7 +292,7 @@ function generatePollResults($row){
         if (is_null($row["Answer$i"])){
             break;
         }
-        $answer = $row["Answer$i"];
+        $answer = htmlspecialchars($row["Answer$i"], ENT_QUOTES);
         $votes = $row["Votes$i"];
         echo "<li>$answer : $votes</li>";
     }
@@ -283,9 +302,9 @@ function generatePollResults($row){
 function generatePollDescription($row){
     include_once "validation_include.php";
     include "db_connection.php";
-    $question = $row["question"];
+    $question = htmlspecialchars($row["question"], ENT_QUOTES);
     $pid = $row["id"];
-    $createdBy = uidToUsername($row["createdBy"]);
+    $createdBy = htmlspecialchars(uidToUsername($row["createdBy"]), ENT_QUOTES);
     echo "<h1>$question</h1>";
     echo "<h2 id='poll_created_by'>Created by: $createdBy</h2>";
     // Generate delete button if user is the owner or an admin.

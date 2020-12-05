@@ -7,9 +7,8 @@
         <?php
         if (isset($_SESSION["id"])){
             if (!isset($_GET["answers"])){
-                $_GET["answers"] = 3;
+                $_GET["answers"] = 2;
             }
-
             generatePollInput($_GET["answers"]);
         }
         

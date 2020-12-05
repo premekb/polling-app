@@ -1,6 +1,17 @@
-function generateTable(){
+function generateTable(event){
     // Ajax request for page of polls.
+    event.preventDefault();
+    // If the submit button was clicked.
+    if (event.type == "submit"){
     var page = document.querySelector("#page").value;
+    }
+    // If an arrow was clicked. Get the page from url and set number input appropriately.
+    else{
+        var url = event.target.parentElement.href;
+        var url = new URL(url);
+        var page = url.searchParams.get("page");
+        document.querySelector("input[type=number]").value = Number(page);
+    }
     var numberInput = document.querySelector("#page");
     if (validate(page)){
         var table = document.querySelector("table");
@@ -16,6 +27,17 @@ function generateTable(){
         xhttp.open("GET", "php/ajax_try.php?page=" + page, true);
         xhttp.send();
         generateArrows(page);
+        // rewire the event listeners for arrows
+        var left_arrow = document.querySelector("#left_nav");
+        var right_arrow = document.querySelector("#right_nav");
+
+        if (left_arrow != undefined){
+            left_arrow.addEventListener("click", generateTable);
+        }
+
+        if (right_arrow != undefined){
+            right_arrow.addEventListener("click", generateTable);
+        }
     }
     else{
         numberInput.classList.add("fail")
@@ -107,4 +129,15 @@ function isDigit(x){
     return /[0-9]/.test(x);
 }
 
-document.querySelector("#gotopage").addEventListener("click", generateTable);
+document.querySelector("form").addEventListener("submit", generateTable);
+
+var left_arrow = document.querySelector("#left_nav");
+var right_arrow = document.querySelector("#right_nav");
+
+if (left_arrow != undefined){
+    left_arrow.addEventListener("click", generateTable);
+}
+
+if (right_arrow != undefined){
+    right_arrow.addEventListener("click", generateTable);
+}

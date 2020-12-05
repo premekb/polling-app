@@ -220,7 +220,10 @@ nav#bottom_nav{
     height: 40px;
 }
 
-input[type=button]#gotopage{
+input[type=submit]#gotopage{
+    width: fit-content;
+    height: fit-content;
+    font-size: 12px;
     background-color: #00BFFF;
     color: white;
     border-color: transparent;
@@ -233,7 +236,7 @@ input[type=button]#gotopage{
     outline: none;
 }
 
-input[type=button]#gotopage:hover{
+input[type=submit]#gotopage:hover{
     color: black;
     background-color: transparent;
     border-color: #00BFFF;

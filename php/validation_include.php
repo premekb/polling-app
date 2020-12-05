@@ -206,8 +206,18 @@ function isBlocked($uid, $connection){
 }
 
 function blockUser($uid, $connection){
-    // Blocks the user and removes all polls created by them.
+    // Blocks the user.
     $query = "UPDATE users SET blocked = 1 WHERE id = ?";
+    $stmt = mysqli_stmt_init($connection);
+    if (!mysqli_stmt_prepare($stmt, $query)){
+        // Zmen mozna potom error
+        die("stmt");
+    }
+    mysqli_stmt_bind_param($stmt, "i", $uid);
+    mysqli_stmt_execute($stmt);
+    
+    // Removes all polls created by the user.
+    $query = "DELETE FROM polls WHERE createdBy = ?";
     $stmt = mysqli_stmt_init($connection);
     if (!mysqli_stmt_prepare($stmt, $query)){
         // Zmen mozna potom error

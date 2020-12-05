@@ -1,33 +1,68 @@
 <?php
 require "polls_include.php";
+include "validation_include.php";
 session_start();
-if (!isset($_POST["submit"])){
+if (!isset($_POST["submit"]) || !isset($_SESSION["id"])){
     header("location: ../new_poll.php");
 }
 
-$keys = $_POST["answers"];
-$question = htmlspecialchars(trim($_POST["question"]), ENT_QUOTES);
+$answers = $_POST["answers"];
+$answersCtr = count($answers);
+$question = trim($_POST["question"]);
 $uid = $_SESSION["id"];
 
-// if (insufficientAnswers($keys)){
-//     header("location: ../new_poll.php?error=insufficientanswers");
-//     exit();
-// }
+// Save the form values in case of a failed form submission.
+$_SESSION["question"] = $question;
 
-// if (empty($question)){
-//     header("location: ../new_poll.php?error=emptyquestion");
-//     exit();
-// }
-
-foreach ($keys as $value){
-    $value = htmlspecialchars(trim($value), ENT_QUOTES);
+for ($i = 0; $i < count($answers); $i++){
+    $key = "answer".($i + 1);
+    $_SESSION[$key] = trim($answers[$i]);
 }
 
-// if (asnwersLength($keys)){
-//     header("location: ../new_poll.php?error=toolong");
-//     exit();
-// }
+// The question field is empty.
+if (empty($question)){
+    header("location: ../new_poll.php?error=emptyquestion&answers=$answersCtr");
+    exit();
+}
 
+// The question is too long.
+if (strlen($question) > 200){
+    header("location: ../new_poll.php?error=toolongquestion&answers=$answersCtr");
+    exit();
+}
 
-addPoll($keys, $question, $uid);
+// Iterate over answers and check if they are in a valid form.
+foreach ($answers as $value){
+    $value = trim($value);
+
+    // One of the answers field is empty or contains only spaces.
+    if (strlen($value) == 0){
+        header("location: ../new_poll.php?error=emptyanswer&answers=$answersCtr");
+        exit();
+    }
+    
+    // One of the answers is too long.
+    if (strlen($value) > 100){
+        header("location: ../new_poll.php?error=toolong&answers=$answersCtr");
+        exit();
+    }
+
+    // Too many or not enough answers.
+    if (count($answers) < 2 || count($answers) > 20){
+        header("location: ../new_poll.php?error=wrongamountofanswers&answers=$answersCtr");
+        exit();
+    }
+}
+
+// Remove the session variables containing form values in case of a successful validation.
+unset($_SESSION["question"]);
+foreach($answers as $key => $value){
+    unset($_SESSION[$key]);
+}
+
+for ($i = 0; $i < count($answers); $i++){
+    $key = "answer".($i + 1);
+    unset($_SESSION[$key]);
+}
+addPoll($answers, $question, $uid);
 header("location: ../new_poll.php?error=pollcreated");

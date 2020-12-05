@@ -97,11 +97,25 @@ function validate(event){
     }
 }
 
+function getAnswerCount(){
+    // Tries to extract the number of answers from the URL.
+    // If GET answers is not set, then set answerCount to 2.
+    var url = window.location.href;
+    var url = new URL(url);
+    let answerCount = url.searchParams.get("answers");
+    if (!answerCount){
+        return 2;
+    }
+    else{
+        return Number(answerCount);
+    }
+}
+
 document.querySelector("#minusphp").outerHTML = document.querySelector("#minusphp").innerHTML;
 document.querySelector("#plusphp").outerHTML = document.querySelector("#plusphp").innerHTML;
 var plusSign = document.querySelector("#addAnswer");
 var minusSign = document.querySelector("#removeAnswer");
-var answerCount = 3
+var answerCount = getAnswerCount();
 plusSign.addEventListener("click", addInput);
 minusSign.addEventListener("click", removeInput);
 
