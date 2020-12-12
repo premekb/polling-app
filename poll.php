@@ -1,9 +1,12 @@
 <?php
     include_once "header.php";
     require "php/polls_include.php";
+    include "php/errors_include.php";
 ?>
     <article>
-        <?php generatePoll($_GET["id"]);?>
+        <?php 
+            generatePoll($_GET["id"]);
+        ?>
     </article>
     <script src="scripts/poll.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>

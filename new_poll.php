@@ -1,6 +1,7 @@
 <?php
     include_once "header.php";
     require "php/polls_include.php";
+    include "php/errors_include.php";
 ?>
 
     <article>
@@ -15,6 +16,8 @@
         else{
             echo "<p>You need to login to create a new poll</p>";
         }
+
+        if (isset($_GET["error"])) echo getError($_GET["error"]);
         ?>
     </article>
 </body>

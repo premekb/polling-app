@@ -30,18 +30,17 @@
     <!-- If the user has disabled cookies, or on the first visit, set the skin to light as default.-->
     <link rel="stylesheet" href=<?php if(isset($_COOKIE["skin"])){echo "'css/styles_".$_COOKIE["skin"].".css'";} else{echo "'css/styles_light.css'";}?>>
     <link rel="stylesheet" media="print" href="css/styles_print.css">
+    <link rel="shortcut icon" type="image/png" href="Icons/favicon.png"/>
     <title><?php echo printTitle(basename($_SERVER['PHP_SELF']))?></title>
 </head>
 <body>
  <header>
     <nav id="top_nav">
-        <a href="index.php">Main site</a> <!-- Logo? -->
+        <a href="index.php">Polls</a> <!-- Logo? -->
         <?php
         if (isset($_SESSION["id"])){
             echo "<a href='new_poll.php'>Create a new poll</a>
-                <a href='my_polls.php'>My polls</a>
-                <a href='profile.php'>My profile</a>
-                <a href='logout.php'>Logout</a>";
+                <a href='php/logout_include.php'>Logout</a>";
         }
 
         else{

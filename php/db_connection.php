@@ -7,7 +7,5 @@ $dbhost = "localhost";
 $connection = mysqli_connect($dbhost, $dbusername, $dbpassword, $dbname);
 
 if (!$connection){
-    die("Connection failed");
+    die("Connection failed".mysqli_connect_error());
 }
-
-

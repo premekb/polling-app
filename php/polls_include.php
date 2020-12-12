@@ -1,7 +1,13 @@
 <?php
-
-function generatePollTable($page){
-    // Generates page out of all polls.
+/**
+ * Fetches data from the DB, and generates table on the index page.
+ * 
+ * @param $page A number of the page to be generated.
+ * @param $rows Amount of rows to be generated on the page. Default is 25.
+ * 
+ * @return void
+ */
+function generatePollTable($page, $rows = 25){
     require "db_connection.php";
     if (!is_numeric($page)){
         $page = 1;
@@ -9,8 +15,8 @@ function generatePollTable($page){
 
     $page = (int)$page;
 
-    if ($page > getPages()){
-        $page = getPages();
+    if ($page > getPages($rows)){
+        $page = getPages($rows);
     }
 
     if ($page < 1){
@@ -22,9 +28,16 @@ function generatePollTable($page){
     echo "<th>Date</th>";
     echo "<th>Created by</th>";
     echo "</tr>";
-    $skip = ($page - 1) * 25;
-    $query = "SELECT id, question, dateAdded, createdBy FROM polls ORDER BY id DESC LIMIT $skip, 25";
-    $result = mysqli_query($connection, $query);
+    $skip = ($page - 1) * $rows;
+    $query = "SELECT id, question, dateAdded, createdBy FROM polls ORDER BY id DESC LIMIT ?, ?";
+    $stmt = mysqli_stmt_init($connection);
+        if (!mysqli_stmt_prepare($stmt, $query)){
+            // Zmen mozna potom error
+            die("stmt");
+        }
+    mysqli_stmt_bind_param($stmt, "ii", $skip, $rows);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
     $ctr = 0;
     while($row = mysqli_fetch_array($result)){
         // No need to escape id, it is generated as primary key by the DB.
@@ -46,58 +59,19 @@ function generatePollTable($page){
     echo "</table>";   
 }
 
-function generateUserPollTable($page, $id){
-    // Generates poll table based on user id.
-    require "db_connection.php";
-    if (!is_numeric($page)){
-        $page = 0;
-    }
-
-    $page = (int)$page;
-
-    if ($page > getPages()){
-        $page = getPages();
-    }
-
-    if ($page < 0){
-        $page = 0;
-    }
-    echo "<table>";
-    echo "<tr>";
-    echo "<th>Poll name</th>";
-    echo "<th>Date</th>";
-    echo "<th>Created by</th>";
-    echo "</tr>";
-    $skip = ($page - 1) * 25;
-    $query = "SELECT id, question, dateAdded, createdBy FROM polls WHERE createdBy=$id ORDER BY id DESC LIMIT $skip, 25";
-    $result = mysqli_query($connection, $query);
-    $ctr = 0;
-    while($row = mysqli_fetch_array($result)){
-        $id = $row["id"];
-        if ($ctr % 2 == 1) {
-            echo "<tr class='odd'><td><a href='poll.php?id=$id' class='table'>";
-        }
-        else{
-            echo "<tr><td><a href='poll.php?id=$id' class='table'>";
-        }
-        echo($row["question"]);
-        echo "</a></td><td>";
-        echo($row["dateAdded"]);
-        echo "</td><td>";
-        echo($row["createdBy"]);
-        echo "</td></tr>";
-        $ctr += 1;
-    }
-    echo "</table>";  
-
-}
-
-function getPages(){
-    // Returns the amount of total pages.
+/**
+ * Fetches data from the DB, and generates table on the index page.
+ * 
+ * @param $page A number of the page to be generated.
+ * @param $rows Amount of rows to be generated on the page. Default is 25.
+ * 
+ * @return void
+ */
+function getPages($rows = 25){
     require "db_connection.php";
     $query = "SELECT COUNT(1) FROM polls";
     $result = mysqli_query($connection, $query);
-    return ceil(mysqli_fetch_array($result)["COUNT(1)"] / 25);
+    return ceil(mysqli_fetch_array($result)["COUNT(1)"] / $rows);
 }
 
 function printArrows($page){
@@ -260,7 +234,7 @@ function generateVotingForm($row, $pid){
         die();
     }
     echo "<form id='voting_form' action='php/vote_include.php' method='POST'>"; // specifikuj potom kde to pujde
-    while ($row["Answer$i"] != NULL){
+    while ($i != 21 && $row["Answer$i"] != NULL){
         $answerText = htmlspecialchars($row["Answer$i"], ENT_QUOTES);
         echo "<input type='radio' name='vote' id='vote$i' value='$i'>";
         echo "<label for='vote$i' class='votelabel'>$answerText</label>";
@@ -282,6 +256,7 @@ function generatePoll($pid){
     generatePollDescription($row);
     generatepollResults($row);
     echo "<div id='piechart'></div>";
+    if (isset($_GET["error"])) echo getError($_GET["error"]);
     generateVotingForm($row, $pid);
 }
 
@@ -352,6 +327,9 @@ function vote($pid, $answerId, $uid){
     require "db_connection.php";
     $pid = (int)$pid;
     $query = "UPDATE polls SET Votes$answerId = Votes$answerId + 1 WHERE id = $pid";
+    $uid = mysqli_real_escape_string($connection, $uid);
+    $answerId = mysqli_real_escape_string($connection, $answerId);
+    $pid = mysqli_real_escape_string($connection, $pid);
     mysqli_query($connection, $query);
     updateVotes($pid, $uid);
 }

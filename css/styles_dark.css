@@ -44,7 +44,6 @@ form.poll_site_delete input[type=submit]{
     border-color: transparent;
     border-radius: 10px;
     font-size: 1em;
-    width: fit-content;
     height: 1.5em;
     transition-duration: 0.5s;
     outline: none;
@@ -53,6 +52,14 @@ form.poll_site_delete input[type=submit]{
     position: relative;
     bottom: 1px;
     left: 5px;
+}
+
+input[value="Delete the poll"]{
+    width: 122px !important;
+}
+
+input[value="Block the creator of this poll"]{
+    width: 217px !important;
 }
 
 form.poll_site_delete input[type=submit]:hover{
@@ -117,6 +124,7 @@ input[type=submit]{
     background-color: #15202b;
     color: whitesmoke;
     border-color: transparent;
+    border-style: solid;
     border-radius: 10px;
     font-size: 20px;
     width: 25%;
@@ -229,8 +237,8 @@ nav#bottom_nav{
 }
 
 input[type=submit]#gotopage{
-    width: fit-content;
-    height: fit-content;
+    width: 43px;
+    height: 23px;
     font-size: 12px;
     background-color: #15202b;;
     color: whitesmoke;
@@ -252,11 +260,16 @@ input[type=submit]#gotopage:hover{
     border-style: solid;
 }
 
-input[type=number]{
+input[type=number], select{
     text-align: center;
     border-radius: 5px;
     border-width: 1px;
     padding: 2px;
+    color: black;
+}
+
+input[type=number]{
+    width: 34px;
 }
 
 span#span_bottom_nav{
@@ -284,4 +297,10 @@ span#skin{
 
 label#pagelabel{
     font-size: 1em;
+}
+
+label[for=rows]{
+    font-size: 1em;;
+    margin-left: 50px;
+    margin-right: 5px;
 }

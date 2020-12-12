@@ -16,7 +16,7 @@
             <input type="password" id="r_password" name="r_password"><br>
             <input type="submit" value="Register" name="submit" id="register">
         </form>
-        <?php if (isset($_GET["error"])) echo printError($_GET["error"]); ?>
+        <?php if (isset($_GET["error"])) echo getError($_GET["error"]); ?>
         <script src="scripts/register.js"></script>
     </main>
 </body>

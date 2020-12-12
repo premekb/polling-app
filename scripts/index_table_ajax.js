@@ -1,8 +1,11 @@
 function generateTable(event){
     // Ajax request for page of polls.
+    if (event != undefined){
     event.preventDefault();
-    // If the submit button was clicked.
-    if (event.type == "submit"){
+    }
+    var rows = document.querySelector("select").value;
+    // If the submit button was clicked or rows were changed.
+    if (event == undefined || event.type == "submit"){
     var page = document.querySelector("#page").value;
     }
     // If an arrow was clicked. Get the page from url and set number input appropriately.
@@ -21,10 +24,11 @@ function generateTable(event){
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 table.innerHTML = this.responseText;
+                document.querySelector("select").scrollIntoView();
             }
         }
         
-        xhttp.open("GET", "php/ajax_try.php?page=" + page, true);
+        xhttp.open("GET", "php/ajax_try.php?page=" + page + "&rows=" + rows, true);
         xhttp.send();
         generateArrows(page);
         // rewire the event listeners for arrows
@@ -59,17 +63,19 @@ function generateArrows(page){
     }
 
     maxPages = document.querySelector("#page").max;
-    if (page == 1){
-        generateRightArrow(page);
-    }
+    if (maxPages != 1){
+        if (page == 1){
+            generateRightArrow(page);
+        }
 
-    else if (page == maxPages){
-        generateLeftArrow(page);
-    }
+        else if (page == maxPages){
+            generateLeftArrow(page);
+        }
 
-    else{
-        generateRightArrow(page);
-        generateLeftArrow(page);
+        else{
+            generateRightArrow(page);
+            generateLeftArrow(page);
+        }
     }
 }
 
@@ -129,7 +135,18 @@ function isDigit(x){
     return /[0-9]/.test(x);
 }
 
+function changeRows(){
+    let rows = document.querySelector("select").value;
+    document.querySelector("#page").max = Math.ceil((Number(originalMaxPages )* 25) / rows);
+    document.querySelector("#of_pages").innerHTML = "of " + document.querySelector("#page").max;
+    document.querySelector("#page").value = "1";
+    generateTable();
+}
+
+var originalMaxPages = document.querySelector("#page").max;
+
 document.querySelector("form").addEventListener("submit", generateTable);
+document.querySelector("select").addEventListener("change", changeRows);
 
 var left_arrow = document.querySelector("#left_nav");
 var right_arrow = document.querySelector("#right_nav");

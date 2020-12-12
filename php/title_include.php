@@ -12,7 +12,7 @@ function printTitle($title){
     }
 
     if ($title == "register.php"){
-        return "Create a new account";
+        return "Register";
         exit();
     }
 
@@ -22,7 +22,7 @@ function printTitle($title){
     }
 
     if ($title == "poll.php"){
-        return "Jmeno pollu, TODO";
+        return "Vote";
         exit();
     }
     return "Unknown page";

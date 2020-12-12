@@ -7,10 +7,12 @@ function addInput() {
     newLabel.setAttribute("for", "answer" + answerCount);
     newLabel.innerHTML = "Answer " + answerCount;
 
+    // Create a new text input element. Assign a cookie value.
     let newInput = document.createElement("input");
     newInput.setAttribute("type", "text");
     newInput.setAttribute("name", "answers[]");
     newInput.setAttribute("id", "answer" + answerCount);
+    newInput.setAttribute("value", getCookie("answer" + answerCount));
 
     let form = document.querySelector("form");
     form.insertBefore(newLabel, plusSign);
@@ -26,16 +28,50 @@ function addInput() {
 }
 
 function removeInput() {
-    // Remove an input field. Rewires the event listener.
-    if (answerCount != 0){
+    // Remove an input field. Rewires the event listener. Saves the input value in cookie.
+    if (answerCount > 2){
+        saveInput();
         form = document.querySelector("form");
         form.querySelector("label[for='answer" + answerCount + "']").nextSibling.remove();
         form.querySelector("label[for='answer" + answerCount + "']").remove();
         form.querySelector("#answer" + answerCount).nextSibling.remove();
         form.querySelector("#answer" + answerCount).remove();
         answerCount -= 1;
+        document.cookie = "answerCount=" + answerCount;
     }
 }
+
+function saveInput() {
+    // Save the input value in a cookie.
+    textFieldValue = document.querySelector("#answer" + answerCount).value;
+    if (textFieldValue.length != 0){
+        document.cookie = "answer" + answerCount + "=" + textFieldValue;
+    }
+}
+
+function getCookie(cname) {
+    // Script was taken from the W3CSchools website. It gets a cookie by its name.
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+
+  function deleteCookies(){
+      // Deletes stored user inputs if validation was successful.
+      for (i = 1; i <= 20; i++){
+          document.cookie = "answer" + i + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+      }
+  }
 
 function validate(event){
     // Validate the user input in the "create a new poll" form.
@@ -90,6 +126,10 @@ function validate(event){
         event.preventDefault();
     }
 
+    else if (!fail){
+        deleteCookies();
+    }
+
     if (tooLongAnswer){
         errorParagraph = document.createElement("p");
         errorParagraph.innerHTML = "The answers cannot be longer than 100 letters.";
@@ -98,7 +138,7 @@ function validate(event){
 }
 
 function getAnswerCount(){
-    // Tries to extract the number of answers from the URL.
+    // Tries to extract the number of answers from the URL or cookies.
     // If GET answers is not set, then set answerCount to 2.
     var url = window.location.href;
     var url = new URL(url);
@@ -120,3 +160,5 @@ plusSign.addEventListener("click", addInput);
 minusSign.addEventListener("click", removeInput);
 
 document.querySelector("form").addEventListener("submit", validate);
+// Delete the saved form values when user leaves the page.
+window.addEventListener("unload", deleteCookies);

@@ -12,7 +12,7 @@
             <input type="submit" value="Login" name="submit">
         </form>
         <script src="scripts/login.js"></script>
-        <?php if (isset($_GET["error"])) echo printError($_GET["error"]);?>
+        <?php if (isset($_GET["error"])) echo getError($_GET["error"]);?>
     </main>
 </body>
 </html>
