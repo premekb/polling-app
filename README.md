@@ -7,7 +7,7 @@ This is a project, which I have build as a part of the "Introduction to web deve
 - Voting
 - Switching themes (light, dark)
 
-# Structure
+# PHP code structure
 - Controllers
   - index.php
   - login.php
