@@ -11,7 +11,8 @@ This is a project, which I have build as a part of the "Introduction to web deve
 - Controllers
   - index.php
   - login.php
-  - new_poll.php o poll.php
+  - new_poll.php
+  - poll.php
   - register.php
 - Include files
   - Template
