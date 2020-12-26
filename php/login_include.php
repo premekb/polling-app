@@ -1,4 +1,7 @@
 <?php
+/**
+ * This file handles the data submitted from the login form.
+ */
     if (isset($_POST["submit"])){
         require "db_connection.php";
         require "validation_include.php";

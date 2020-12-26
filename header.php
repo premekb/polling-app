@@ -1,4 +1,9 @@
 <?php
+    /**
+     * This file is included in every page the user is shown.
+     * It contains the nav menu, which changes, when the user logs in.
+     * It also contains the beginning of a correct HTML page.
+     */
     include_once "php/title_include.php";
     include "php/validation_include.php";
     include "php/db_connection.php";
@@ -18,7 +23,7 @@
 
     // Create the skin cookie if it doesn't exist.
     if(!isset($_COOKIE["skin"])){
-    setcookie("skin", "light", time() + (86400 * 1000), "/~belkapre", ".toad.cz");
+    setcookie("skin", "light", time() + (86400 * 1000), "/polls");
     }
 ?>
 

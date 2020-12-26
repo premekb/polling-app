@@ -1,3 +1,10 @@
+/**
+ * Validates data submitted from the login form. Prevents the form from submitting in case of invalid data.
+ * 
+ * @param {submitEvent} event
+ * 
+ * @return {void} 
+ */
 function validate(event){
     // Check if user didn't leave a form field empty.
     let forms = document.forms["login"];

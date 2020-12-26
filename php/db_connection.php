@@ -1,8 +1,8 @@
 <?php
-$dbusername = "belkapre";
-$dbpassword = "webove aplikace";
-$dbname = "belkapre";
-$dbhost = "localhost";
+$dbusername = "w264019_polls";
+$dbpassword = "fWRk9gjU";
+$dbname = "d264019_polls";
+$dbhost = "md104.wedos.net";
 
 $connection = mysqli_connect($dbhost, $dbusername, $dbpassword, $dbname);
 

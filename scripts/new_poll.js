@@ -1,8 +1,14 @@
+/**
+ * Adds a new input text field for answers, if there is less than 20 of them.
+ * 
+ * @return {void}
+ */
 function addInput() {
     // Adds a new input field for answers. Rewires the event listener.
     if (answerCount != 20){
     answerCount += 1
 
+    // Create a label for the input
     let newLabel = document.createElement("label");
     newLabel.setAttribute("for", "answer" + answerCount);
     newLabel.innerHTML = "Answer " + answerCount;
@@ -14,21 +20,28 @@ function addInput() {
     newInput.setAttribute("id", "answer" + answerCount);
     newInput.setAttribute("value", getCookie("answer" + answerCount));
 
+    // Insert the label and input field.
     let form = document.querySelector("form");
     form.insertBefore(newLabel, plusSign);
     form.insertBefore(document.createElement("br"), plusSign);
     form.insertBefore(newInput, plusSign);
     form.insertBefore(document.createElement("br"), plusSign)
 
-
+    // Rewire the event listener on the plus sign. 
     plusSign = document.querySelector("#addAnswer");
     plusSign.addEventListener("click", addInput);
     plusSign.scrollIntoView();
     }
 }
 
+/**
+ * Removes the last input text field, if there is more than 2 of them left.
+ * Saves value of this text field in cookie, in case the user would decide to add it back.
+ * This cookie is removed upon unloading the page.
+ * 
+ * @return {void}
+ */
 function removeInput() {
-    // Remove an input field. Rewires the event listener. Saves the input value in cookie.
     if (answerCount > 2){
         saveInput();
         form = document.querySelector("form");
@@ -41,6 +54,12 @@ function removeInput() {
     }
 }
 
+/**
+ * It saves the value of the last input text field into a cookie.
+ * This function is only called upon removing the last input text field.
+ * 
+ * @return {void}
+ */
 function saveInput() {
     // Save the input value in a cookie.
     textFieldValue = document.querySelector("#answer" + answerCount).value;
@@ -49,8 +68,13 @@ function saveInput() {
     }
 }
 
+/**
+ * It gets a cookie value based on its name.
+ * This script was taken from the W3CSchools website.
+ * 
+ * @return {string}
+ */
 function getCookie(cname) {
-    // Script was taken from the W3CSchools website. It gets a cookie by its name.
     var name = cname + "=";
     var decodedCookie = decodeURIComponent(document.cookie);
     var ca = decodedCookie.split(';');
@@ -66,21 +90,33 @@ function getCookie(cname) {
     return "";
   }
 
-  function deleteCookies(){
-      // Deletes stored user inputs if validation was successful.
+/**
+ * Delete stored text field inputs if the validation was successful.
+ * 
+ * @return {void}
+ */
+function deleteCookies(){
       for (i = 1; i <= 20; i++){
           document.cookie = "answer" + i + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
       }
   }
 
+/**
+ * Validates data submited in the "create a new poll" form.
+ * Prevents the form from submitting if the data is in an incorrect format.
+ * 
+ * @param {submitEvent} event 
+ * 
+ * @return {void}
+ */
 function validate(event){
-    // Validate the user input in the "create a new poll" form.
     var questionField = document.querySelector("#question");
+    // If the fail variable is set to true at any point. Then the validation is unsuccessful.
     var fail = false;
     var tooLongAnswer = false;
 
     var errorParagraph = document.querySelector("p");
-    var article = document.querySelector("article");
+    var main = document.querySelector("main");
 
     // Remove the red borders from the last control.
     questionField.classList.remove("fail");
@@ -91,17 +127,19 @@ function validate(event){
         errorParagraph = document.querySelector("p");
     }
 
+    // Prevent submission if the question field is empty or contains only spaces
     if (questionField.value.split(" ").join("").length == 0){
         questionField.classList.add("fail");
         fail = true;
     }
 
+    // Prevent submission if the question is longer than 200 characters.
     else if (questionField.value.length > 200){
         questionField.classList.add("fail");
         fail = true;
         errorParagraph = document.createElement("p");
         errorParagraph.innerHTML = "The question cannot be longer than 200 letters.";
-        article.appendChild(errorParagraph);
+        main.appendChild(errorParagraph);
     }
 
     for (i = 0; i < answerCount; i++){
@@ -110,11 +148,13 @@ function validate(event){
         // Remove the red borders from the last control.
         answerField.classList.remove("fail");
 
+        // Prevent submission if the answer field is empty or contains only spaces
         if (answerField.value.split(" ").join("").length == 0){
             answerField.classList.add("fail");
             fail = true;
         }
 
+        // Prevent submission if the answer is longer than 100 characters.
         else if (answerField.value.length > 100){
             answerField.classList.add("fail");
             fail = true;
@@ -126,6 +166,7 @@ function validate(event){
         event.preventDefault();
     }
 
+    // Delete the stored text field input if the validation was successful.
     else if (!fail){
         deleteCookies();
     }
@@ -133,13 +174,17 @@ function validate(event){
     if (tooLongAnswer){
         errorParagraph = document.createElement("p");
         errorParagraph.innerHTML = "The answers cannot be longer than 100 letters.";
-        article.appendChild(errorParagraph);
+        main.appendChild(errorParagraph);
     }
 }
 
+/**
+ * Tries to extract the number of answers from the URL.
+ * If the GET answers parameter is not set, then return 2.
+ * 
+ * @return {Number}
+ */
 function getAnswerCount(){
-    // Tries to extract the number of answers from the URL or cookies.
-    // If GET answers is not set, then set answerCount to 2.
     var url = window.location.href;
     var url = new URL(url);
     let answerCount = url.searchParams.get("answers");
@@ -151,8 +196,11 @@ function getAnswerCount(){
     }
 }
 
+// Remove the links on plus and minus sign generated by the PHP.
+// This way of adding and removing answers should only be used with JS off.
 document.querySelector("#minusphp").outerHTML = document.querySelector("#minusphp").innerHTML;
 document.querySelector("#plusphp").outerHTML = document.querySelector("#plusphp").innerHTML;
+
 var plusSign = document.querySelector("#addAnswer");
 var minusSign = document.querySelector("#removeAnswer");
 var answerCount = getAnswerCount();

@@ -1,3 +1,11 @@
+/**
+ * Checks that if the user is logged in an has chosen an answer.
+ * If not, then voting is prevented.
+ * 
+ * @param {submitEvent} event 
+ * 
+ * @return {boolean}
+ */
 function validate(event){
     // Check if user is logged in based on the nav menu.
     var login = document.querySelector("a[href='login.php']");
@@ -23,15 +31,25 @@ function validate(event){
 
     event.preventDefault();
     alert("Choose an answer please.");
+    return false;
 }
 
+/**
+ * Removes the HTML list poll results, to be replaced by a google chart.
+ * 
+ * @return {void}
+ */
 function removeHTMLresults(){
-    // Remove list of results. It will get replaced by google chart.
     document.querySelector("#jsoff").remove();
 }
 
+/**
+ * Parses the HTML list results. Appends a paragraph saying, that no one has voted yet,
+ * if all of the answer results are 0.
+ * 
+ * @return {void}
+ */
 function noVotes(){
-    // Writes a message if no one has voted yet.
     var items = document.querySelectorAll("li");
     var voted = false;
     for (i = 0; i < items.length; i++){

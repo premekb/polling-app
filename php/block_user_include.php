@@ -1,4 +1,7 @@
 <?php
+/**
+ * This file handles the POST request from the "block the user" button on a poll page.
+ */
 include_once "validation_include.php";
 include_once "db_connection.php";
 session_start();

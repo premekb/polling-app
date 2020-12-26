@@ -4,7 +4,7 @@
     include "php/errors_include.php";
 ?>
 
-    <article>
+    <main>
         <?php
         if (isset($_SESSION["id"])){
             if (!isset($_GET["answers"])){
@@ -19,6 +19,6 @@
 
         if (isset($_GET["error"])) echo getError($_GET["error"]);
         ?>
-    </article>
+    </main>
 </body>
 </html>

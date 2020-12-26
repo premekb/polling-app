@@ -117,8 +117,12 @@ nav#bottom_nav{
     height: 40px;
 }
 
-input[type=button]#gotopage{
+input[type=submit]#gotopage{
     display: none;
+}
+
+input[value=Vote]{
+    display:none;
 }
 
 input[type=number]{

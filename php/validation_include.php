@@ -1,6 +1,15 @@
 <?php
+/**
+ * Returns true if length of at least one of the parameters is 0. Otherwise returns false.
+ * 
+ * @param string $username Username
+ * @param string $password Password
+ * @param string $rpassword Password again
+ * @param string $email Email
+ * 
+ * @return boolean
+ */
 function isEmpty($username, $password, $rpassword, $email){
-    // Nektery field mi poslal user prazdny
     if (empty($username) or empty($password) or empty($rpassword) or empty($email)){
         return true;
     }
@@ -8,8 +17,17 @@ function isEmpty($username, $password, $rpassword, $email){
     return false;
 }
 
+/**
+ * Returns true if a username is in a incorrect format.
+ * 
+ * It has to be 3 - 30 characters long and can only contain digits and letters in order
+ * to be considered correct.
+ * 
+ * @param string $username Username
+ * 
+ * @return boolean
+ */
 function usernameWrong($username){
-    // Username ve spatnem formatu
     if (strlen($username) < 3 or strlen($username) > 30){
         return true;
     }
@@ -23,8 +41,16 @@ function usernameWrong($username){
     return false;
 }
 
+/**
+ * Returns true if a password is in a incorrect format.
+ * 
+ * It has to be 6 - 100 characters long in order to be considered correct.
+ * 
+ * @param string $password password
+ * 
+ * @return boolean
+ */
 function passwordWrong($password){
-    // Password ve spatnem formatu
     if (strlen($password) < 6 or strlen($password) > 100){
         return true;
     }
@@ -33,8 +59,15 @@ function passwordWrong($password){
     
 }
 
+/**
+ * Returns true if passwords don't match.
+ * 
+ * @param string $password password
+ * @param string $rpassword password again
+ * 
+ * @return boolean
+ */
 function dontMatch($password, $rpassword){
-    // Passwords se neshoduji
     if ($password !== $rpassword){
         return true;
     }
@@ -43,8 +76,16 @@ function dontMatch($password, $rpassword){
 
 }
 
+/**
+ * Returns true if email is in a incorrect format.
+ * 
+ * Uses the built in filter_var function.
+ * 
+ * @param string $email email
+ * 
+ * @return boolean
+ */
 function emailWrong($email){
-    // Email ve spatnem formatu
     if (filter_var($email, FILTER_VALIDATE_EMAIL)){
         return false;
     }
@@ -52,8 +93,15 @@ function emailWrong($email){
     return true;
 }
 
+/**
+ * Returns true if a username is already in the DB.
+ * 
+ * @param string $username username
+ * @param object $connection DB connection
+ * 
+ * @return boolean
+ */
 function usernameExists($username, $connection){
-    // Username is already in the database.
     $query = "SELECT username FROM users WHERE username=?";
     $stmt = mysqli_stmt_init($connection);
     if (!mysqli_stmt_prepare($stmt, $query)){
@@ -72,8 +120,15 @@ function usernameExists($username, $connection){
     return false;
 }
 
+/**
+ * Returns true if an email is already in the DB.
+ * 
+ * @param string $email email
+ * @param object $connection DB connection
+ * 
+ * @return boolean
+ */
 function emailExists($email, $connection){
-    // Email is already in the database.
     $query = "SELECT email FROM users WHERE email=?";
     $stmt = mysqli_stmt_init($connection);
     if (!mysqli_stmt_prepare($stmt, $query)){
@@ -92,8 +147,17 @@ function emailExists($email, $connection){
     return false;
 }
 
+/**
+ * Inserts a new user record into the DB. Encrypts the password using bcrypt.
+ * 
+ * @param string $username username
+ * @param string $password password
+ * @param string $email email
+ * @param object $connection DB connection
+ * 
+ * @return void
+ */
 function createUser($username, $password, $email, $connection){
-    // Register user
     $password = password_hash($password, PASSWORD_BCRYPT);
     $query = "INSERT INTO users (username, password, email) VALUES (?, ?, ?)";
     $stmt = mysqli_stmt_init($connection);
@@ -110,8 +174,16 @@ function createUser($username, $password, $email, $connection){
     header("location: ../register.php?error=usercreated");
 }
 
+/**
+ * Logs in the user (starts a new session with his uid) if correct credentials are entered.
+ * 
+ * @param string $username username
+ * @param string $password password
+ * @param object $connection DB connection
+ * 
+ * @return void
+ */
 function login($username, $password, $connection){
-    // Logs in the user, if correct credentials are entered.
     $query = "SELECT id, password FROM users WHERE username=?";
     $stmt = mysqli_stmt_init($connection);
     if (!mysqli_stmt_prepare($stmt, $query)){
@@ -140,14 +212,19 @@ function login($username, $password, $connection){
     }
 }
 
+/**
+ * Queries the DB if user has admin privileges.
+ * 
+ * @param $id user id
+ * @param object $connection DB connection
+ * 
+ * @return boolean
+ */
 function isAdmin($id, $connection){
-    //Returns true if user is an admin.
     $query = "SELECT admin FROM users WHERE id = ?";
     $stmt = mysqli_stmt_init($connection);
     if (!mysqli_stmt_prepare($stmt, $query)){
-        // pak prepis na normal error
-        echo("STMT");
-        die();
+        die("stmt");
     }
     mysqli_stmt_bind_param($stmt, "s", $id);
     mysqli_stmt_execute($stmt);
@@ -162,12 +239,19 @@ function isAdmin($id, $connection){
     return ($row["admin"] == 1);
 }
 
+/**
+ * Returns true if a user is the creator of a given poll.
+ * 
+ * @param $uid uid
+ * @param $pid pid
+ * @param object $connection connection
+ * 
+ * @return boolean
+ */
 function isCreator($uid, $pid, $connection){
-    // Returns true if user is the creator of a poll.
     $query = "SELECT createdBy FROM polls where id = ?";
     $stmt = mysqli_stmt_init($connection);
     if (!mysqli_stmt_prepare($stmt, $query)){
-        // Zmen mozna potom error
         die("stmt");
     }
     mysqli_stmt_bind_param($stmt, "s", $pid);
@@ -177,12 +261,19 @@ function isCreator($uid, $pid, $connection){
     return ($row["createdBy"] == $uid);
 }
 
+/**
+ * Returns true if a user has already voted.
+ * 
+ * @param $uid user id
+ * @param $pid poll id
+ * @param object $connection DB connection
+ * 
+ * @return boolean
+ */
 function userVoted($uid, $pid, $connection){
-    // Returns true if user has already voted. (NOT TESTED YET!)
     $query = "SELECT * FROM votes WHERE uid = ? AND pid = ?";
     $stmt = mysqli_stmt_init($connection);
     if (!mysqli_stmt_prepare($stmt, $query)){
-        // Zmen mozna potom error
         die("stmt");
     }
     mysqli_stmt_bind_param($stmt, "ss", $uid, $pid);
@@ -191,12 +282,18 @@ function userVoted($uid, $pid, $connection){
     return (mysqli_num_rows($result) > 0);
 }
 
+/**
+ * Returns true if user is blocked
+ * 
+ * @param $uid user id
+ * @param object $connection DB connection
+ * 
+ * @return boolean
+ */
 function isBlocked($uid, $connection){
-    // Returns true if user is blocked.
     $query = "SELECT * FROM users WHERE id = ? AND blocked = 1";
     $stmt = mysqli_stmt_init($connection);
     if (!mysqli_stmt_prepare($stmt, $query)){
-        // Zmen mozna potom error
         die("stmt");
     }
     mysqli_stmt_bind_param($stmt, "i", $uid);
@@ -205,12 +302,18 @@ function isBlocked($uid, $connection){
     return (mysqli_num_rows($result) == 1);
 }
 
+/**
+ * Blocks the user and removes all poll created by him/her.
+ * 
+ * @param $uid user id
+ * @param object $connection DB connection
+ * 
+ * @return void
+ */
 function blockUser($uid, $connection){
-    // Blocks the user.
     $query = "UPDATE users SET blocked = 1 WHERE id = ?";
     $stmt = mysqli_stmt_init($connection);
     if (!mysqli_stmt_prepare($stmt, $query)){
-        // Zmen mozna potom error
         die("stmt");
     }
     mysqli_stmt_bind_param($stmt, "i", $uid);
@@ -220,7 +323,6 @@ function blockUser($uid, $connection){
     $query = "DELETE FROM polls WHERE createdBy = ?";
     $stmt = mysqli_stmt_init($connection);
     if (!mysqli_stmt_prepare($stmt, $query)){
-        // Zmen mozna potom error
         die("stmt");
     }
     mysqli_stmt_bind_param($stmt, "i", $uid);

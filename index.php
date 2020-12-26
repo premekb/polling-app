@@ -3,7 +3,7 @@
     include "php/polls_include.php";
 ?>
 
-    <article>
+    <main>
             <?php
                 if (isset($_GET["page"])){
                     generatePollTable($_GET["page"]);
@@ -15,7 +15,7 @@
                 }
 
             ?>
-    </article>
+    </main>
 
     <script src="scripts/row_select.js" defer></script>
     <script src="scripts/index_table_ajax.js" defer></script>
@@ -26,13 +26,10 @@
                 <span id="span_bottom_nav">
                 <input type="submit" id="gotopage" name="gotopage" value="Go to">
                 <label for="page" id="pagelabel">page</label>
-                <input type="number" name="page" id="page" value=<?php echo $_GET["page"];?> min="1" max=<?php echo getPages(); ?>> <span id="of_pages">of <?php echo getPages();?></span>
+                <input type="number" name="page" id="page" value=<?php echo htmlspecialchars($_GET["page"], ENT_QUOTES);?> min="1" max=<?php echo getPages(); ?>> <span id="of_pages">of <?php echo getPages();?></span>
             </span>
     </form>
     </nav>
-
-    <p>Mozna to bude potreba reorganizovat a lisknout potom includes nad www folder</p>
-    <p>Zmenit vsechny article na tag main</p>
 </body>
 </html>
 

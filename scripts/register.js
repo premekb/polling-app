@@ -1,18 +1,34 @@
+/**
+ * Returns true if x is a digit.
+ * 
+ * @param {string} x one character
+ * 
+ * @return {boolean} 
+ */
 function isDigit(x){
-    // Returns true if input is a digit.
-
     return /[0-9]/.test(x);
 }
 
+/**
+ * Returns true if x is a letter.
+ * 
+ * @param {string} x one character
+ * 
+ * @return {boolean} 
+ */
 function isChar(x){
-    // Returns true if input is a letter.
-
     return /[a-zA-Z]/.test(x);
 }
-function validate(event){
-    // Check if the the data from user is valid.
-    // If not, show him an error message and prevent the form from submitting.
 
+/**
+ * Validates the data submitted from the "register" form.
+ * Prevents form submission if the data is in an incorrect format.
+ * 
+ * @param {submitEvent} event
+ * 
+ * @return {void} 
+ */
+function validate(event){
     var forms = document.forms["register"];
     var fail = false;
     var main = document.querySelector("main");

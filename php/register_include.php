@@ -1,18 +1,20 @@
 <?php
+/**
+ * This file handles the data submitted from the registration form.
+ */
     if (isset($_POST["submit"])){
         require "validation_include.php";
         require "db_connection.php";
         
-        $username = htmlspecialchars($_POST["username"], ENT_QUOTES);
+        $username = $_POST["username"];
         $password = $_POST["password"];
         $rpassword = $_POST["r_password"];
-        $email = htmlspecialchars($_POST["email"], ENT_QUOTES);
+        $email = $_POST["email"];
 
         // Start session to save the form values in case of failed form submission.
         session_start();
         $_SESSION["r_username"] = $username;
         $_SESSION["r_email"] = $email;
-
 
         if (isEmpty($username, $password, $rpassword, $email)){
             header("location: ../register.php?error=emptyfield");
@@ -49,6 +51,7 @@
             exit();
         }
 
+        // The data is in correct format. Remove the saved values.
         unset($_SESSION["r_username"]);
         unset($_SESSION["r_email"]);
         createUser($username, $password, $email, $connection);

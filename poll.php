@@ -3,14 +3,14 @@
     require "php/polls_include.php";
     include "php/errors_include.php";
 ?>
-    <article>
+    <main>
         <?php 
             generatePoll($_GET["id"]);
         ?>
-    </article>
+    </main>
     <script src="scripts/poll.js"></script>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
     // Parts of the script taken from w3schools.
     google.charts.load('current', {'packages':['corechart']});
     google.charts.setOnLoadCallback(drawChart);

@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * It processes the GET parameter error and generates an appropriate error message.
+ * 
+ * @param string $errorMessage Error code from the GET parameter.
+ * 
+ * @return string
+ */
 function getError($errorMessage){
     switch ($errorMessage){
         case "emptyfield":

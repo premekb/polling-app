@@ -1,7 +1,11 @@
 <?php
+/**
+ * This file handles the data submitted from the form on the "create a new poll" page.
+ */
 require "polls_include.php";
 include "validation_include.php";
 session_start();
+// if the form was not submitted properly or the user is not logged in
 if (!isset($_POST["submit"]) || !isset($_SESSION["id"])){
     header("location: ../new_poll.php");
 }
@@ -11,7 +15,7 @@ $answersCtr = count($answers);
 $question = trim($_POST["question"]);
 $uid = $_SESSION["id"];
 
-// Save the form values in case of a failed form submission.
+// Save the form values in case of a failed form submission to be reused later.
 $_SESSION["question"] = $question;
 
 for ($i = 0; $i < count($answers); $i++){
