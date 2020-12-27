@@ -1,5 +1,5 @@
 # polling-app
-This is a project, which I have build as a part of the "Introduction to web development" course at my university. The app is build using MySQL, PHP, JS and the google charts library. [Link to the app](http://premekbelka.com/polls).
+This is a project, which I have build as a part of the "Introduction to web development" course at my university. The app is built using MySQL, PHP, JS and the google charts library. [Link to the app](http://premekbelka.com/polls).
 
 # Functionality
 - Login system with various levels of privileges (guest, user, admin)
