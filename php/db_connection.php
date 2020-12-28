@@ -1,8 +1,8 @@
 <?php
-$dbusername = "w264019_polls";
-$dbpassword = "fWRk9gjU";
-$dbname = "d264019_polls";
-$dbhost = "md104.wedos.net";
+$dbusername = "";
+$dbpassword = "";
+$dbname = "";
+$dbhost = ";
 
 $connection = mysqli_connect($dbhost, $dbusername, $dbpassword, $dbname);
 
